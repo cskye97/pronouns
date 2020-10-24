@@ -1,136 +1,264 @@
-
 %pronouns package
-%provides a macro to randomly choose pronoun sets
+%provides randomly chosen pronoun sets for maximum
+%chaos in your gender-neutral writing
 %inspired by the therefor package at https://github.com/bgschiller/latex-therefore
+%requires arrayjobx and lcg
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Use                                           %%
+%% Write as if you were using singular they,     %%
+%% replacing it with appropriate LaTeX commands, %%
+%% for instance \They, \themself. Verbs can be   %%
+%% conjugated with \s, \es, \are, \were, \re, and%%
+%% \have. Optionally pass a number (1-5; default %%
+%% is 1) to refer to different people (but it is %%
+%% not guaranteed that the randomly chosen       %%
+%% pronouns are different): \They[1] see \them[2]%%
+%% Pay attention to how LaTeX handles spacing    %%
+%% after commands: \They\ see something.         %%
+%% Also pay attention to capitalization; you may %%
+%% need to use other commands to get i.e. THEY.  %%
+%% Use \set to initialize and whenever you want  %%
+%% to change pronouns.                           %%
+%% Options:                                      %%
+%% noplural prevents the package from using      %%
+%%  `they,' allowing you to ignore conjugations. %%
+%% restrict sets the pronoun set to only they,   %%
+%%  she, and he (or she and he with noplural)    %%
+%% seed=XXXX sets the random seed used by lcg    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{pronouns}[2020/10/23 Pronouns test package written by Carissa Skye; 2013/06/20 Therefor Package written by Brian Schiller]
+\ProvidesPackage{pronouns}[2020/10/23 Pronouns package written by Carissa Skye; 2013/06/20 Therefor Package written by Brian Schiller]
 
+\newcommand{\firstpronoun}{1}
+\newcommand{\lastpronoun}{11}
+
+%restrict pronoun sets
+\DeclareOption{noplural}{\renewcommand{\firstpronoun}{2}}
+\DeclareOption{restrict}{\renewcommand{\lastpronoun}{3}}
+
+%allow user to determiner seed
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{lcg}}
+\ProcessOptions\relax
+
+%required packages
+\RequirePackage[first=\firstpronoun, last=\lastpronoun, counter=rand]{lcg}
 \RequirePackage{arrayjobx}
-\RequirePackage{xspace}
 
+%arrays of the various pronoun strings
 \newarray\Subject
-\Subject(1)={She}
-\Subject(2)={He}
-\Subject(3)={It}
-\Subject(4)={Xe}
-\Subject(5)={Ze}
-\Subject(6)={Ve}
-\Subject(7)={Thon}
-\Subject(8)={Ey}
-\Subject(9)={Per}
-\Subject(10)={Fae}
+\Subject(1)={They}
+\Subject(2)={She}
+\Subject(3)={He}
+\Subject(4)={It}
+\Subject(5)={Xe}
+\Subject(6)={Ze}
+\Subject(7)={Ve}
+\Subject(8)={Thon}
+\Subject(9)={Ey}
+\Subject(10)={Per}
+\Subject(11)={Fae}
 
 \newarray\subject
-\subject(1)={she}
-\subject(2)={he}
-\subject(3)={it}
-\subject(4)={xe}
-\subject(5)={ze}
-\subject(6)={ve}
-\subject(7)={thon}
-\subject(8)={ey}
-\subject(9)={per}
-\subject(10)={fae}
+\subject(1)={they}
+\subject(2)={she}
+\subject(3)={he}
+\subject(4)={it}
+\subject(5)={xe}
+\subject(6)={ze}
+\subject(7)={ve}
+\subject(8)={thon}
+\subject(9)={ey}
+\subject(10)={per}
+\subject(11)={fae}
 
 \newarray\Object
-\Object(1)={Her}
-\Object(2)={Him}
-\Object(3)={It}
-\Object(4)={Xem}
-\Object(5)={Hir}
-\Object(6)={Ver}
-\Object(7)={Thon}
-\Object(8)={Em}
-\Object(9)={Per}
-\Object(10)={Faer}
+\Object(1)={Them}
+\Object(2)={Her}
+\Object(3)={Him}
+\Object(4)={It}
+\Object(5)={Xem}
+\Object(6)={Hir}
+\Object(7)={Ver}
+\Object(8)={Thon}
+\Object(9)={Em}
+\Object(10)={Per}
+\Object(11)={Faer}
 
 \newarray\object
-\object(1)={her}
-\object(2)={him}
-\object(3)={it}
-\object(4)={xem}
-\object(5)={hir}
-\object(6)={ver}
-\object(7)={thon}
-\object(8)={em}
-\object(9)={per}
-\object(10)={faer}
+\object(1)={them}
+\object(2)={her}
+\object(3)={him}
+\object(4)={it}
+\object(5)={xem}
+\object(6)={hir}
+\object(7)={ver}
+\object(8)={thon}
+\object(9)={em}
+\object(10)={per}
+\object(11)={faer}
 
 \newarray\Determiner
-\Determiner(1)={Her}
-\Determiner(2)={His}
-\Determiner(3)={Its}
-\Determiner(4)={Xyr}
-\Determiner(5)={Hir}
-\Determiner(6)={Vis}
-\Determiner(7)={Thons}
-\Determiner(8)={Eir}
-\Determiner(9)={Per}
-\Determiner(10)={Faer}
+\Determiner(1)={Their}
+\Determiner(2)={Her}
+\Determiner(3)={His}
+\Determiner(4)={Its}
+\Determiner(5)={Xyr}
+\Determiner(6)={Hir}
+\Determiner(7)={Vis}
+\Determiner(8)={Thons}
+\Determiner(9)={Eir}
+\Determiner(10)={Per}
+\Determiner(11)={Faer}
 
 \newarray\determiner
-\determiner(1)={her}
-\determiner(2)={his}
-\determiner(3)={its}
-\determiner(4)={xyr}
-\determiner(5)={hir}
-\determiner(6)={vis}
-\determiner(7)={thons}
-\determiner(8)={eir}
-\determiner(9)={per}
-\determiner(10)={faer}
+\determiner(1)={their}
+\determiner(2)={her}
+\determiner(3)={his}
+\determiner(4)={its}
+\determiner(5)={xyr}
+\determiner(6)={hir}
+\determiner(7)={vis}
+\determiner(8)={thons}
+\determiner(9)={eir}
+\determiner(10)={per}
+\determiner(11)={faer}
 
 \newarray\Possessive
-\Possessive(1)={Hers}
-\Possessive(2)={His}
-\Possessive(3)={Its}
-\Possessive(4)={Xyrs}
-\Possessive(5)={Hirs}
-\Possessive(6)={Vis}
-\Possessive(7)={Thons}
-\Possessive(8)={Eirs}
-\Possessive(9)={Pers}
-\Possessive(10)={Faers}
+\Possessive(1)={Theirs}
+\Possessive(2)={Hers}
+\Possessive(3)={His}
+\Possessive(4)={Its}
+\Possessive(5)={Xyrs}
+\Possessive(6)={Hirs}
+\Possessive(7)={Vis}
+\Possessive(8)={Thons}
+\Possessive(9)={Eirs}
+\Possessive(10)={Pers}
+\Possessive(11)={Faers}
 
 \newarray\possessive
-\possessive(1)={hers}
-\possessive(2)={his}
-\possessive(3)={its}
-\possessive(4)={xyrs}
-\possessive(5)={hirs}
-\possessive(6)={vis}
-\possessive(7)={thons}
-\possessive(8)={eirs}
-\possessive(9)={pers}
-\possessive(10)={faers}
+\possessive(1)={theirs}
+\possessive(2)={hers}
+\possessive(3)={his}
+\possessive(4)={its}
+\possessive(5)={xyrs}
+\possessive(6)={hirs}
+\possessive(7)={vis}
+\possessive(8)={thons}
+\possessive(9)={eirs}
+\possessive(10)={pers}
+\possessive(11)={faers}
 
 \newarray\Reflexive
-\Reflexive(1)={Herself}
-\Reflexive(2)={Himself}
-\Reflexive(3)={Itself}
-\Reflexive(4)={Xemself}
-\Reflexive(5)={Hirself}
-\Reflexive(6)={Verself}
-\Reflexive(7)={Thonself}
-\Reflexive(8)={Eirself}
-\Reflexive(9)={Perself}
-\Reflexive(10)={Faerself}
+\Reflexive(1)={Themself}
+\Reflexive(2)={Herself}
+\Reflexive(3)={Himself}
+\Reflexive(4)={Itself}
+\Reflexive(5)={Xemself}
+\Reflexive(6)={Hirself}
+\Reflexive(7)={Verself}
+\Reflexive(8)={Thonself}
+\Reflexive(9)={Eirself}
+\Reflexive(10)={Perself}
+\Reflexive(11)={Faerself}
 
 \newarray\reflexive
-\reflexive(1)={herself}
-\reflexive(2)={himself}
-\reflexive(3)={itself}
-\reflexive(4)={xemself}
-\reflexive(5)={hirself}
-\reflexive(6)={verself}
-\reflexive(7)={thonself}
-\reflexive(8)={eirself}
-\reflexive(9)={perself}
-\reflexive(10)={faerself}
+\reflexive(1)={themself}
+\reflexive(2)={herself}
+\reflexive(3)={himself}
+\reflexive(4)={itself}
+\reflexive(5)={xemself}
+\reflexive(6)={hirself}
+\reflexive(7)={verself}
+\reflexive(8)={thonself}
+\reflexive(9)={eirself}
+\reflexive(10)={perself}
+\reflexive(11)={faerself}
 
-\def\numpronouns{10}
+%arrays of various verb conjugations
+
+\newarray\Verbs
+\Verbs(1)={}
+\Verbs(2)={s}
+\Verbs(3)={s}
+\Verbs(4)={s}
+\Verbs(5)={s}
+\Verbs(6)={s}
+\Verbs(7)={s}
+\Verbs(8)={s}
+\Verbs(9)={s}
+\Verbs(10)={s}
+\Verbs(11)={s}
+
+\newarray\Verbes
+\Verbes(1)={}
+\Verbes(2)={es}
+\Verbes(3)={es}
+\Verbes(4)={es}
+\Verbes(5)={es}
+\Verbes(6)={es}
+\Verbes(7)={es}
+\Verbes(8)={es}
+\Verbes(9)={es}
+\Verbes(10)={es}
+\Verbes(11)={es}
+
+\newarray\VerbIs
+\VerbIs(1)={are}
+\VerbIs(2)={is}
+\VerbIs(3)={is}
+\VerbIs(4)={is}
+\VerbIs(5)={is}
+\VerbIs(6)={is}
+\VerbIs(7)={is}
+\VerbIs(8)={is}
+\VerbIs(9)={is}
+\VerbIs(10)={is}
+\VerbIs(11)={is}
+
+\newarray\VerbS
+\VerbS(1)={re}
+\VerbS(2)={s}
+\VerbS(3)={s}
+\VerbS(4)={s}
+\VerbS(5)={s}
+\VerbS(6)={s}
+\VerbS(7)={s}
+\VerbS(8)={s}
+\VerbS(9)={s}
+\VerbS(10)={s}
+\VerbS(11)={s}
+
+\newarray\VerbWas
+\VerbWas(1)={were}
+\VerbWas(2)={was}
+\VerbWas(3)={was}
+\VerbWas(4)={was}
+\VerbWas(5)={was}
+\VerbWas(6)={was}
+\VerbWas(7)={was}
+\VerbWas(8)={was}
+\VerbWas(9)={was}
+\VerbWas(10)={was}
+\VerbWas(11)={was}
+
+\newarray\VerbHas
+\VerbHas(1)={have}
+\VerbHas(2)={has}
+\VerbHas(3)={has}
+\VerbHas(4)={has}
+\VerbHas(5)={has}
+\VerbHas(6)={has}
+\VerbHas(7)={has}
+\VerbHas(8)={has}
+\VerbHas(9)={has}
+\VerbHas(10)={has}
+\VerbHas(11)={has}
+
+%up to five different pronouns supported
 
 \newcounter{PronounOne}
 \newcounter{PronounTwo}
@@ -138,41 +266,242 @@
 \newcounter{PronounFour}
 \newcounter{PronounFive}
 
-%allow user to seterminer seed
-\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{lcg}}
-\ProcessOptions\relax
-
-\RequirePackage[first=1, last=\numpronouns, counter=rand] {lcg}
+%commands
 
 \newcommand{\set}{%
-    \rand
-    \setcounter{PronounOne}{\value{rand}}
-    \rand
-    \setcounter{PronounTwo}{\value{rand}}
-    \rand
-    \setcounter{PronounThree}{\value{rand}}
-    \rand
-    \setcounter{PronounFour}{\value{rand}}
-    \rand
-    \setcounter{PronounFive}{\value{rand}}
+    \rand%
+    \setcounter{PronounOne}{\value{rand}}%
+    \rand%
+    \setcounter{PronounTwo}{\value{rand}}%
+    \rand%
+    \setcounter{PronounThree}{\value{rand}}%
+    \rand%
+    \setcounter{PronounFour}{\value{rand}}%
+    \rand%
+    \setcounter{PronounFive}{\value{rand}}%
 }
 
-\newcommand{\They}[1][1]{\rand\ifnum#1=1\Subject(\arabic{PronounOne})\else\ifnum#1=2\Subject(\arabic{PronounTwo})\else\ifnum#1=3\Subject(\arabic{PronounThree})\else\ifnum#1=4\Subject(\arabic{PronounFour})\else\ifnum#1=5\Subject(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\They}[1][1]{%
+    \rand%
+    \ifnum#1=1%%
+        \Subject(\arabic{PronounOne})%%
+    \else\ifnum#1=2%%
+        \Subject(\arabic{PronounTwo})%%
+    \else\ifnum#1=3%%
+        \Subject(\arabic{PronounThree})%%
+    \else\ifnum#1=4%%
+        \Subject(\arabic{PronounFour})%%
+    \else\ifnum#1=5%%
+        \Subject(\arabic{PronounFive})%%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\they}[1][1]{\ifnum#1=1\subject(\arabic{PronounOne})\else\ifnum#1=2\subject(\arabic{PronounTwo})\else\ifnum#1=3\subject(\arabic{PronounThree})\else\ifnum#1=4\subject(\arabic{PronounFour})\else\ifnum#1=5\subject(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\they}[1][1]{%
+	\ifnum#1=1%
+    	\subject(\arabic{PronounOne})%
+	\else\ifnum#1=2%
+    	\subject(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\subject(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\subject(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\subject(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\Them}[1][1]{\ifnum#1=1\Object(\arabic{PronounOne})\else\ifnum#1=2\Object(\arabic{PronounTwo})\else\ifnum#1=3\Object(\arabic{PronounThree})\else\ifnum#1=4\Object(\arabic{PronounFour})\else\ifnum#1=5\Object(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\Them}[1][1]{%
+	\ifnum#1=1%
+    	\Object(\arabic{PronounOne})%
+	\else\ifnum#1=2%
+    	\Object(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\Object(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\Object(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\Object(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\them}[1][1]{\ifnum#1=1\object(\arabic{PronounOne})\else\ifnum#1=2\object(\arabic{PronounTwo})\else\ifnum#1=3\object(\arabic{PronounThree})\else\ifnum#1=4\object(\arabic{PronounFour})\else\ifnum#1=5\object(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\them}[1][1]{%
+	\ifnum#1=1%
+    	\object(\arabic{PronounOne})%
+	\else\ifnum#1=2%
+    	\object(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\object(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\object(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\object(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\Their}[1][1]{\ifnum#1=1\Determiner(\arabic{PronounOne})\else\ifnum#1=2\Determiner(\arabic{PronounTwo})\else\ifnum#1=3\Determiner(\arabic{PronounThree})\else\ifnum#1=4\Determiner(\arabic{PronounFour})\else\ifnum#1=5\Determiner(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\Their}[1][1]{%
+	\ifnum#1=1%
+    	\Determiner(\arabic{PronounOne})%
+	\else\ifnum#1=2%
+    	\Determiner(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\Determiner(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\Determiner(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\Determiner(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\their}[1][1]{\ifnum#1=1\determiner(\arabic{PronounOne})\else\ifnum#1=2\determiner(\arabic{PronounTwo})\else\ifnum#1=3\determiner(\arabic{PronounThree})\else\ifnum#1=4\determiner(\arabic{PronounFour})\else\ifnum#1=5\determiner(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\their}[1][1]{%
+	\ifnum#1=1%
+    	\determiner(\arabic{PronounOne})%
+	\else\ifnum#1=2%
+    	\determiner(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\determiner(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\determiner(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\determiner(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\Theirs}[1][1]{\ifnum#1=1\Possessive(\arabic{PronounOne})\else\ifnum#1=2\Possessive(\arabic{PronounTwo})\else\ifnum#1=3\Possessive(\arabic{PronounThree})\else\ifnum#1=4\Possessive(\arabic{PronounFour})\else\ifnum#1=5\Possessive(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\Theirs}[1][1]{%
+	\ifnum#1=1%
+    	\Possessive(\arabic{PronounOne})%
+	\else\ifnum#1=2%
+    	\Possessive(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\Possessive(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\Possessive(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\Possessive(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\theirs}[1][1]{\ifnum#1=1\possessive(\arabic{PronounOne})\else\ifnum#1=2\possessive(\arabic{PronounTwo})\else\ifnum#1=3\possessive(\arabic{PronounThree})\else\ifnum#1=4\possessive(\arabic{PronounFour})\else\ifnum#1=5\possessive(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\theirs}[1][1]{%
+	\ifnum#1=1%
+    	\possessive(\arabic{PronounOne})%
+	\else\ifnum#1=2%
+    	\possessive(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\possessive(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\possessive(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\possessive(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\Themself}[1][1]{\ifnum#1=1\Reflexive(\arabic{PronounOne})\else\ifnum#1=2\Reflexive(\arabic{PronounTwo})\else\ifnum#1=3\Reflexive(\arabic{PronounThree})\else\ifnum#1=4\Reflexive(\arabic{PronounFour})\else\ifnum#1=5\Reflexive(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\Themself}[1][1]{%
+	\ifnum#1=1%
+    	\Reflexive(\arabic{PronounOne})%
+	\else\ifnum#1=2%
+    	\Reflexive(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\Reflexive(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\Reflexive(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\Reflexive(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
 
-\newcommand{\themself}[1][1]{\ifnum#1=1\reflexive(\arabic{PronounOne})\else\ifnum#1=2\reflexive(\arabic{PronounTwo})\else\ifnum#1=3\reflexive(\arabic{PronounThree})\else\ifnum#1=4\reflexive(\arabic{PronounFour})\else\ifnum#1=5\reflexive(\arabic{PronounFive})\fi\fi\fi\fi\fi\xspace}
+\newcommand{\themself}[1][1]{%
+    \ifnum#1=1%
+        \reflexive(\arabic{PronounOne})%
+    \else\ifnum#1=2%
+        \reflexive(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\reflexive(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\reflexive(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\reflexive(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
+
+\newcommand{\s}[1][1]{%
+    \ifnum#1=1%
+        \Verbs(\arabic{PronounOne})%
+    \else\ifnum#1=2%
+        \Verbs(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\Verbs(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\Verbs(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\Verbs(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
+
+\newcommand{\have}[1][1]{%
+    \ifnum#1=1%
+        \VerbHas(\arabic{PronounOne})%
+    \else\ifnum#1=2%
+        \VerbHas(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\VerbHas(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\VerbHas(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\VerbHas(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
+
+\newcommand{\are}[1][1]{%
+    \ifnum#1=1%
+        \VerbIs(\arabic{PronounOne})%
+    \else\ifnum#1=2%
+        \VerbIs(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\VerbIs(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\VerbIs(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\VerbIs(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
+
+\newcommand{\were}[1][1]{%
+    \ifnum#1=1%
+        \VerbWas(\arabic{PronounOne})%
+    \else\ifnum#1=2%
+        \VerbWas(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\VerbWas(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\VerbWas(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\VerbWas(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
+
+\newcommand{\es}[1][1]{%
+    \ifnum#1=1%
+        \Verbes(\arabic{PronounOne})%
+    \else\ifnum#1=2%
+        \Verbes(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\Verbes(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\Verbes(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\Verbes(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
+
+\newcommand{\re}[1][1]{%
+    \ifnum#1=1%
+        \VerbS(\arabic{PronounOne})%
+    \else\ifnum#1=2%
+        \VerbS(\arabic{PronounTwo})%
+    \else\ifnum#1=3%
+    	\VerbS(\arabic{PronounThree})%
+    \else\ifnum#1=4%
+    	\VerbS(\arabic{PronounFour})%
+    \else\ifnum#1=5%
+    	\VerbS(\arabic{PronounFive})%
+    \fi\fi\fi\fi\fi%
+}
