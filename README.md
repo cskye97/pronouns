@@ -22,9 +22,12 @@ Also pay attention to capitalization; you may
 need to use other commands to get i.e. THEY.
 Use \set to initialize and whenever you want
 to change pronouns.
+
 Options:
+
 noplural prevents the package from using
 'they,' allowing you to ignore conjugations.
+
 restrict sets the pronoun set to only they,
 she, and he (or she and he with noplural)
 seed=XXXX sets the random seed used by lcg 
