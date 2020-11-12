@@ -30,6 +30,7 @@ noplural prevents the package from using
 
 restrict sets the pronoun set to only they,
 she, and he (or she and he with noplural)
+
 seed=XXXX sets the random seed used by lcg 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
